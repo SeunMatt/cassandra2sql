@@ -18,7 +18,7 @@ Verify your installation by running `java -version`
 
 Running/Executing the Tool
 ---------------------------
-From the command line execute `java -jar ./cassandra2sql-1.0.jar application.properties`
+From the command line execute `java -jar ./dist/cassandra2sql-1.0.jar application.properties`
 
 **Where `application.properties` is the full path to the **.properties** config file**
 
