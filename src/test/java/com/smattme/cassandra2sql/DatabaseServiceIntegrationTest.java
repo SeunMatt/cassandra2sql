@@ -3,7 +3,6 @@ package com.smattme.cassandra2sql;
 import com.smattme.cassandra2sql.services.ConnectionService;
 import com.smattme.cassandra2sql.services.DatabaseService;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +39,20 @@ class DatabaseServiceIntegrationTest {
 
 
     @Test
-    void givenAlternatePropertyFilePath_whenGenerateSQL_thenDoNotMail() {
+    void givenAlternatePropertyFilePath_whenGenerateSQL_thenDoNotPreserveGeneratedFiles() {
         DatabaseService databaseService = new DatabaseService("application-no-preserve.properties");
         databaseService.generateSQLFromKeySpace();
         Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
         File generatedZipFile = databaseService.getGeneratedZipFile();
         assertTrue(generatedSQL.isEmpty());
         assertFalse(generatedZipFile.exists());
+    }
+
+
+    void givenPropertyFile_whenGenerateSQL_thenDoNotSendEmail() {
+
+
+
     }
 
 }

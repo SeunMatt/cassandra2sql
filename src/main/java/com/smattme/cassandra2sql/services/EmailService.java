@@ -27,7 +27,6 @@ public class EmailService {
     private String msg = "";
     private File [] attachments;
     private Logger logger = LoggerFactory.getLogger(EmailService.class);
-    private final String LOG_PREFIX = "java-mysql-exporter";
 
 
     private EmailService() {}
@@ -112,7 +111,7 @@ public class EmailService {
     public boolean sendMail() {
 
         if(!this.isPropertiesSet()) {
-            logger.debug(LOG_PREFIX + ": Required Mail Properties are not set. Attachments will not be sent");
+            logger.debug(" Required Mail Properties are not set. Attachments will not be sent");
             return false;
         }
 
@@ -123,7 +122,7 @@ public class EmailService {
         prop.put("mail.smtp.port", this.port);
         prop.put("mail.smtp.ssl.trust", host);
 
-        logger.debug(LOG_PREFIX + ": Mail properties set");
+        logger.debug(" Mail properties set");
 
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
@@ -132,7 +131,7 @@ public class EmailService {
             }
         });
 
-        logger.debug(LOG_PREFIX + ": Mail Session Created");
+        logger.debug(" Mail Session Created");
 
         try {
 //			create a default mime message object
@@ -147,7 +146,7 @@ public class EmailService {
 
 //          body part for attachments
             MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-            logger.debug(LOG_PREFIX + ": " + this.attachments.length + " attachments found");
+            logger.debug(" " + this.attachments.length + " attachments found");
             for (File file: this.attachments) {
                 attachmentBodyPart.attachFile(file);
             }
@@ -163,13 +162,12 @@ public class EmailService {
 //			send the message
             Transport.send(message);
 
-            logger.debug(LOG_PREFIX + ": MESSAGE SENT SUCCESSFULLY");
+            logger.debug(" MESSAGE SENT SUCCESSFULLY");
 
             return true;
 
         } catch (Exception e) {
-            logger.debug(LOG_PREFIX + ": MESSAGE NOT SENT. " + e.getLocalizedMessage());
-            e.printStackTrace();
+            logger.debug("MESSAGE NOT SENT. " + e.getLocalizedMessage(), e);
             return false;
         }
 

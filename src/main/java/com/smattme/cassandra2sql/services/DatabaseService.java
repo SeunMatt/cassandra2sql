@@ -237,7 +237,10 @@ public class DatabaseService {
         //cleanup, we're done here
         cleanTempFiles();
 
-        logger.info("zipFile exists: " + generatedZipFile.exists());
+       //cleanup resources
+        ConnectionService.getInstance().closeConnection();
+
+        logger.info("Process completed successfully");
 
     }
 
