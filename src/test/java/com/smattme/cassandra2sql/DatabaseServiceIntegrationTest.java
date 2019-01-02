@@ -16,11 +16,6 @@ class DatabaseServiceIntegrationTest {
 
     private Logger logger = LoggerFactory.getLogger(DatabaseServiceIntegrationTest.class);
 
-    @AfterAll
-    static void cleanUp() {
-        ConnectionService.getInstance().closeConnection();
-    }
-
 
     @Test
     void givenPropertyFilePath_whenGenerateSQLFromKeySpace_thenReadConfig() {

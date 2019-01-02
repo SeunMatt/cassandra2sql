@@ -26,6 +26,7 @@ import static com.smattme.cassandra2sql.config.Constants.*;
 public class DatabaseService {
 
     private Session databaseSession;
+    private ConnectionService conectionService;
     private String keySpace;
     private Logger logger = LoggerFactory.getLogger(DatabaseService.class);
     private String identifierQuote;
@@ -36,6 +37,7 @@ public class DatabaseService {
     private Properties properties;
     private Map<String, String> generatedSQL;
     private boolean keepGeneratedSQLFile;
+    private String configValueSeparator = ":";
 
     public DatabaseService(String pathToProperties) {
         init(pathToProperties);
@@ -56,7 +58,8 @@ public class DatabaseService {
             System.exit(0);
         }
 
-        databaseSession = ConnectionService.getInstance().getSession();
+        conectionService = ConnectionService.getInstance(properties);
+        databaseSession = conectionService.getSession();
         generatedSQL = new HashMap<>();
         NULL_VALUE = null;
 
@@ -121,7 +124,7 @@ public class DatabaseService {
         //merging to values
         String targetColumns = Arrays.stream(columnMap.split(","))
                 .map(s ->  {
-                    String [] arr = s.split("=");
+                    String [] arr = s.split(configValueSeparator);
                     //save the order of src column for processing later on
                     srcColumns.add(arr[0]);
                     return identifierQuote + arr[1] + identifierQuote;
@@ -177,7 +180,7 @@ public class DatabaseService {
 
         tablesList.parallelStream().forEach(table -> {
 
-            String [] tableArray = table.split("=");
+            String [] tableArray = table.split(configValueSeparator);
             String sourceTable, targetTable;
 
             if(tableArray.length == 1) {
@@ -238,7 +241,7 @@ public class DatabaseService {
         cleanTempFiles();
 
        //cleanup resources
-        ConnectionService.getInstance().closeConnection();
+        conectionService.closeConnection();
 
         logger.info("Process completed successfully");
 

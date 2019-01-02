@@ -11,6 +11,12 @@ public class Constants {
     public static final String DATETIME_FORMAT = "DATETIME_FORMAT";
     public static final String DATE_FORMAT = "DATE_FORMAT";
 
+    public static final String DB_HOST = "DB_HOST";
+    public static final String DB_PASSWORD = "DB_PASSWORD";
+    public static final String DB_USERNAME = "DB_USERNAME";
+    public static final String DB_PORT = "DB_PORT";
+
+
     //EMAIL CONFIG STUFFS
     public static final String EMAIL_HOST = "EMAIL_HOST";
     public static final String EMAIL_PORT = "EMAIL_PORT";
