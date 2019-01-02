@@ -49,10 +49,14 @@ class DatabaseServiceIntegrationTest {
     }
 
 
+    @Test
     void givenPropertyFile_whenGenerateSQL_thenDoNotSendEmail() {
-
-
-
+        DatabaseService databaseService = new DatabaseService("application-no-email.properties");
+        databaseService.generateSQLFromKeySpace();
+        Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
+        File generatedZipFile = databaseService.getGeneratedZipFile();
+        assertNotNull(generatedSQL);
+        assertNotNull(generatedZipFile);
     }
 
 }

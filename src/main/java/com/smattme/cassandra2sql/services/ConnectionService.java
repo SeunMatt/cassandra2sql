@@ -26,9 +26,9 @@ public class ConnectionService {
     }
 
 
-    public Cluster getCluster() {
+    private Cluster getCluster() {
 
-        if(Objects.isNull(cluster)) {
+        if(Objects.isNull(cluster) || cluster.isClosed()) {
             logger.info("initializing database cluster connection");
             cluster = Cluster.builder()
                     .addContactPoint("127.0.0.1")
@@ -40,7 +40,7 @@ public class ConnectionService {
     }
 
     public Session getSession() {
-        if(Objects.isNull(session)) {
+        if(Objects.isNull(session) || session.isClosed()) {
             logger.info("initializing database session connection");
             session = getCluster().connect();
         }
