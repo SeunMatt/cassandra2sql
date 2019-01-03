@@ -12,7 +12,7 @@ before_script:
   - cp src/test/resources/application.properties application.properties
   - cp src/test/resources/db-cleanup.cql db-cleanup.cql
   - cp src/test/resources/db-prep.cql db-prep.cql
-  - slep 10
+  - sleep 10
   - eval "cqlsh -f db-prep.cql"
 
 after_script:
