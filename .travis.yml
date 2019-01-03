@@ -5,13 +5,14 @@ services: cassandra
 jdk:
   - oraclejdk8
 
-before_install:
+before_script:
   - eval "java -version"
   - eval "cqlsh --version"
   - ls -1a
   - cp src/test/resources/application.properties application.properties
   - cp src/test/resources/db-cleanup.cql db-cleanup.cql
   - cp src/test/resources/db-prep.cql db-prep.cql
+  - slep 10
   - eval "cqlsh -f db-prep.cql"
 
 after_script:
