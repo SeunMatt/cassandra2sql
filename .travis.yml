@@ -1,8 +1,14 @@
 language: java
 sudo: false
 install: true
+services: docker
 jdk:
   - oraclejdk8
+
+before_install:
+- docker pull cassandra
+- docker run --name test-cassandra -d cassandra:3.11
+
 script:
   - mvn clean package
 cache:
