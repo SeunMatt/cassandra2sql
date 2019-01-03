@@ -20,8 +20,8 @@ after_script:
 
 script:
   - mvn clean package
-  - java -jar target/cassandra2sql-1.0-shaded.jar mysql-application.properties
-  - java -jar target/cassandra2sql-1.0-shaded.jar postgres-application.properties
+  - java -jar target/cassandra2sql-1.0.jar mysql-application.properties
+  - java -jar target/cassandra2sql-1.0.jar postgres-application.properties
 
 cache:
   directories:
