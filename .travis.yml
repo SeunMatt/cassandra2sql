@@ -6,8 +6,15 @@ jdk:
   - oraclejdk8
 
 before_install:
-- eval "java -version"
-- eval "cqlsh --version"
+  - eval "java -version"
+  - eval "cqlsh --version"
+  - cp src/test/application.properties application.properties
+  - cp src/test/resources/db-cleanup.cql db-cleanup.cql
+  - cp src/test/resources/db-prep.cql db-prep.cql
+  - eval "cqlsh -f db-prep.cql"
+
+after_script:
+  - eval "cqlsh -f db-cleanup.cql"
 
 script:
   - mvn clean package
