@@ -1,5 +1,8 @@
 Cassandra2SQL
 ==============
+
+[![Build Status](https://travis-ci.org/SeunMatt/cassandra2sql.svg?branch=master)](https://travis-ci.org/SeunMatt/cassandra2sql)
+
 This is a simple library for exporting cassandra database to SQL that can be used to restore an SQL database like MySQL and Postgres.
 
 It handles the database columns based on their types i.e. TEXT columns are processed differently from TIMESTAMP type of columns.
@@ -94,6 +97,16 @@ EMAIL_PASSWORD=your-username
 EMAIL_FROM=seun@example.com
 EMAIL_TO=smatt@example.com
 ```
+
+Building from Source
+======================
+Requirements:
+-------------
+- Apache Maven 3+
+- JRE 8+
+
+Execute `mvn clean package` and the binary file will be available in `target/cassandra2sql-1.0.jar`
+
 
 LICENSE
 =======
