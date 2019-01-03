@@ -79,7 +79,7 @@ public class DatabaseService {
         if(sqlFlavour.equals(SQLFlavour.POSTGRES_FLAVOUR)) {
             identifierQuote = "\"";
         }
-        else if(sqlFlavour.equals(SQLFlavour.NO_FLAVOUR)) {
+        else if(sqlFlavour.equals(SQLFlavour.MYSQL_FLAVOUR)) {
             identifierQuote = "`";
         }
         else {

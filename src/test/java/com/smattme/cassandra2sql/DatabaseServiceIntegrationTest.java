@@ -30,7 +30,7 @@ class DatabaseServiceIntegrationTest {
         assertNotNull(generatedZipFile);
 
         logger.info("generated zip file: \n" + generatedZipFile.getAbsolutePath());
-        logger.info("generated sql: \n" + generatedSQL);
+        logger.info("generated postgres sql: \n" + generatedSQL);
     }
 
     @Test
@@ -47,7 +47,7 @@ class DatabaseServiceIntegrationTest {
         assertNotNull(generatedZipFile);
 
         logger.info("generated zip file: \n" + generatedZipFile.getAbsolutePath());
-        logger.info("generated sql: \n" + generatedSQL);
+        logger.info("generated mysql sql: \n" + generatedSQL);
     }
 
 
