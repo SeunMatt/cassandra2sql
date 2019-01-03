@@ -32,3 +32,7 @@ INSERT INTO testspace.phonebook (userid, phone, createdat) VALUES ('daf9d9fac2c5
 INSERT INTO testspace.phonebook (userid, phone, createdat) VALUES ('dftf9d9fac2c5ed8217849', '08113456789', '2019-01-13 11:12:14');
 INSERT INTO testspace.phonebook (userid, phone, createdat) VALUES ('daf9d9fac2sssed8217859', '08023888991', '2019-01-01 11:12:14');
 INSERT INTO testspace.phonebook (userid, phone, createdat) VALUES ('daf9d9fac217837', '080238383771', '2019-01-03 11:12:14');
+
+
+SELECT COUNT(*) as total_users FROM testspace.user;
+SELECT COUNT(*) as total_phonebook FROM testspace.phonebook;
