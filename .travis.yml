@@ -8,7 +8,8 @@ jdk:
 before_script:
   - eval "java -version"
   - eval "cqlsh --version"
-  - cp src/test/resources/application.properties application.properties
+  - cp src/test/resources/mysql-application.properties mysql-application.properties
+  - cp src/test/resources/postgres-application.properties postgres-application.properties
   - cp src/test/resources/db-cleanup.cql db-cleanup.cql
   - cp src/test/resources/db-prep.cql db-prep.cql
   - sleep 10
@@ -19,6 +20,9 @@ after_script:
 
 script:
   - mvn clean package
+  - java -jar target/cassandra2sql-1.0-shaded.jar mysql-application.properties
+  - java -jar target/cassandra2sql-1.0-shaded.jar postgres-application.properties
+
 cache:
   directories:
     - '$HOME/.m2/repository'

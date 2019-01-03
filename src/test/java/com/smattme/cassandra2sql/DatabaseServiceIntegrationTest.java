@@ -17,8 +17,25 @@ class DatabaseServiceIntegrationTest {
 
 
     @Test
-    void givenPropertyFilePath_whenGenerateSQLFromKeySpace_thenReadConfig() {
-        String propertyFile = "application.properties";
+    void givenPostgresPropertyFilePath_whenGenerateSQLFromKeySpace_thenPostgresCompatibleSQL() {
+        String propertyFile = "postgres-application.properties";
+        File file = new File(propertyFile);
+        assumeTrue(file.exists(), propertyFile + " does not exist so test is skipped");
+        DatabaseService databaseService = new DatabaseService(propertyFile);
+        databaseService.generateSQLFromKeySpace();
+        Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
+        File generatedZipFile = databaseService.getGeneratedZipFile();
+
+        assertNotNull(generatedSQL);
+        assertNotNull(generatedZipFile);
+
+        logger.info("generated zip file: \n" + generatedZipFile.getAbsolutePath());
+        logger.info("generated sql: \n" + generatedSQL);
+    }
+
+    @Test
+    void givenMYSQLPropertyFilePath_whenGenerateSQLFromKeySpace_thenMySQLCompatibleSQL() {
+        String propertyFile = "mysql-application.properties";
         File file = new File(propertyFile);
         assumeTrue(file.exists(), propertyFile + " does not exist so test is skipped");
         DatabaseService databaseService = new DatabaseService(propertyFile);
