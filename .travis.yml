@@ -8,6 +8,7 @@ jdk:
 before_install:
   - eval "java -version"
   - eval "cqlsh --version"
+  - ls -1a
   - cp src/test/application.properties application.properties
   - cp src/test/resources/db-cleanup.cql db-cleanup.cql
   - cp src/test/resources/db-prep.cql db-prep.cql
