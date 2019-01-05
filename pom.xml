@@ -87,7 +87,6 @@
     </dependencies>
 
     <build>
-        <outputDirectory>./dist</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
