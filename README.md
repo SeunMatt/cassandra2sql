@@ -7,7 +7,7 @@ This is a simple library for exporting cassandra database to SQL that can be use
 
 It handles the database columns based on their types i.e. TEXT columns are processed differently from TIMESTAMP type of columns.
 
-**Every collection columns by default are converted into JSON string**
+**Every collection columns, by default, are converted into JSON string**
 
 
 Usage
@@ -105,7 +105,9 @@ Requirements:
 - Apache Maven 3+
 - JRE 8+
 
-Execute `mvn clean package` and the binary file will be available in `target/cassandra2sql-1.0.jar`
+Execute `mvn clean package` and the binary file will be available in `target/cassandra2sql-1.0.jar`. 
+
+To skip tests execute `mvn clean package -DskipTests=true`
 
 
 LICENSE
