@@ -169,8 +169,11 @@ public class DatabaseService {
         }
     }
 
-
-    public void generateSQLFromKeySpace() {
+    /**
+     * coordinate other functions to
+     * perform the export
+     */
+    private void generateSQLFromKeySpace() {
 
         String tables = properties.getProperty(Constants.TABLES_KEY);
         logger.info("properties table List: \n" + tables);
@@ -246,7 +249,6 @@ public class DatabaseService {
         logger.info("Process completed successfully");
 
     }
-
 
 
     /**
@@ -344,6 +346,22 @@ public class DatabaseService {
 
     public Map<String, String> getGeneratedSQL() {
         return generatedSQL;
+    }
+
+    /**
+     * main application entry point
+     * delegates to the generateSQLFromKeySpace()
+     *  method. But handles failure and cleanups
+     */
+    public void performExport() {
+        try {
+            generateSQLFromKeySpace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            conectionService.closeConnection();
+        }
     }
 
 }

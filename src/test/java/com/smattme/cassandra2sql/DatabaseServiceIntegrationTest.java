@@ -22,7 +22,7 @@ class DatabaseServiceIntegrationTest {
         File file = new File(propertyFile);
         assumeTrue(file.exists(), propertyFile + " does not exist so test is skipped");
         DatabaseService databaseService = new DatabaseService(propertyFile);
-        databaseService.generateSQLFromKeySpace();
+        databaseService.performExport();
         Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
         File generatedZipFile = databaseService.getGeneratedZipFile();
 
@@ -34,12 +34,12 @@ class DatabaseServiceIntegrationTest {
     }
 
     @Test
-    void givenMYSQLPropertyFilePath_whenGenerateSQLFromKeySpace_thenMySQLCompatibleSQL() {
+    void givenMYSQLPropertyFilePath_whenperformExport_thenMySQLCompatibleSQL() {
         String propertyFile = "mysql-application.properties";
         File file = new File(propertyFile);
         assumeTrue(file.exists(), propertyFile + " does not exist so test is skipped");
         DatabaseService databaseService = new DatabaseService(propertyFile);
-        databaseService.generateSQLFromKeySpace();
+        databaseService.performExport();
         Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
         File generatedZipFile = databaseService.getGeneratedZipFile();
 
@@ -57,7 +57,7 @@ class DatabaseServiceIntegrationTest {
         File file = new File(propertyFile);
         assumeTrue(file.exists(), propertyFile + " does not exist so test is skipped");
         DatabaseService databaseService = new DatabaseService(propertyFile);
-        databaseService.generateSQLFromKeySpace();
+        databaseService.performExport();
         Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
         File generatedZipFile = databaseService.getGeneratedZipFile();
         assertTrue(generatedSQL.isEmpty());
@@ -71,7 +71,7 @@ class DatabaseServiceIntegrationTest {
         File file = new File(propertyFile);
         assumeTrue(file.exists(), propertyFile + " does not exist so test is skipped");
         DatabaseService databaseService = new DatabaseService("application-no-email.properties");
-        databaseService.generateSQLFromKeySpace();
+        databaseService.performExport();
         Map<String, String> generatedSQL = databaseService.getGeneratedSQL();
         File generatedZipFile = databaseService.getGeneratedZipFile();
         assertNotNull(generatedSQL);
