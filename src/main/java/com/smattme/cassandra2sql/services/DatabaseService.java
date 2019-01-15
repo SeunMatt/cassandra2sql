@@ -313,15 +313,21 @@ public class DatabaseService {
      */
     private void cleanTempFiles() {
 
+        logger.debug("clearing temp files");
+
         //attempt to delete folder if it exists already
         try {
+
             if(!Objects.isNull(tempDir)) {
+                logger.debug("deleting temp dir [" + tempDir.getAbsolutePath() + "]");
                 Files.walk(tempDir.toPath()).map(Path::toFile).forEach(File::delete);
                 tempDir.delete();
             }
 
-            if(!Objects.isNull(generatedZipFile) && Boolean.parseBoolean(properties.getProperty(Constants.DELETE_GENERATED_ZIPFILE, "false")))
+            if(!Objects.isNull(generatedZipFile) && Boolean.parseBoolean(properties.getProperty(Constants.DELETE_GENERATED_ZIPFILE, "false"))) {
+                logger.debug("deleting generated zip file [" + generatedZipFile.getAbsolutePath() + "]");
                 Files.deleteIfExists(generatedZipFile.toPath());
+            }
 
         } catch (IOException e) {
             logger.error("Unable to delete temp files generated: " + e.getLocalizedMessage(), e);
@@ -346,10 +352,8 @@ public class DatabaseService {
     public void performExport() {
 
         try {
-            generateSQLFromKeySpace();
 
-            //cleanup, we're done here
-            cleanTempFiles();
+            generateSQLFromKeySpace();
 
             logger.info("Process completed successfully");
 
@@ -357,6 +361,9 @@ public class DatabaseService {
             e.printStackTrace();
         }
         finally {
+            //cleanup, we're done here
+            cleanTempFiles();
+            logger.debug("closing database connection");
             conectionService.closeConnection();
         }
     }
