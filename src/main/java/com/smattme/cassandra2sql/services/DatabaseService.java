@@ -294,9 +294,10 @@ public class DatabaseService {
             Object object = row.getObject(columnName);
             try {
                  value = "'" + objectMapper.writeValueAsString(object) + "'";
+                 value = value.replace("'", "''");
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                value = "'" + (!Objects.isNull(row.getObject(columnName)) ? row.getObject(columnName).toString() : NULL_VALUE) + "'";
+                value = "'" + (!Objects.isNull(row.getObject(columnName)) ? row.getObject(columnName).toString() : NULL_VALUE).replace("'", "''") + "'";
             }
         }
         else if(definitions.getType(columnName).getName().equals(Name.TIMESTAMP)) {
@@ -312,12 +313,13 @@ public class DatabaseService {
         }
         else {
             try {
-                value = "'" + row.getString(columnName) + "'";
+                value = "'" + row.getString(columnName).replace("'", "''") + "'";
             }
             catch (Exception e) {
-                value = "'" + (!Objects.isNull(row.getObject(columnName)) ? row.getObject(columnName).toString() : NULL_VALUE) + "'";
+                value = "'" + (!Objects.isNull(row.getObject(columnName)) ? row.getObject(columnName).toString() : NULL_VALUE).replace("'", "''") + "'";
             }
         }
+
         return  value;
     }
 
