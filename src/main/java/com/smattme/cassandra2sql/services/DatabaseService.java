@@ -238,16 +238,6 @@ public class DatabaseService {
             }
         }
 
-
-
-        //cleanup, we're done here
-        cleanTempFiles();
-
-       //cleanup resources
-        conectionService.closeConnection();
-
-        logger.info("Process completed successfully");
-
     }
 
 
@@ -354,9 +344,16 @@ public class DatabaseService {
      *  method. But handles failure and cleanups
      */
     public void performExport() {
+
         try {
             generateSQLFromKeySpace();
-        }catch (Exception e) {
+
+            //cleanup, we're done here
+            cleanTempFiles();
+
+            logger.info("Process completed successfully");
+
+        }  catch (Exception e) {
             e.printStackTrace();
         }
         finally {
