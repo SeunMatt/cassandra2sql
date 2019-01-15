@@ -116,7 +116,7 @@ MIT
 
 Author
 ======
-(Seun Matt)[https://smattme.com/about]
+[Seun Matt](https://smattme.com/about)
 
 Contributing
 =============
