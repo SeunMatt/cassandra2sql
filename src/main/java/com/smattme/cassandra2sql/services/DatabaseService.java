@@ -118,6 +118,12 @@ public class DatabaseService {
 
         ResultSet rows = databaseSession.execute("SELECT * FROM " + keySpace + "." + srcTableName + ";");
 
+        int total = rows.getAvailableWithoutFetching();
+        logger.debug("table " + srcTableName + " has at least [" + total + "] rows");
+        if(total <= 0) {
+            return "";
+        }
+
         //EXTRACT the srcColumns
         List<String> srcColumns = new LinkedList<>();
 
@@ -204,38 +210,47 @@ public class DatabaseService {
             }
             else {
                 String generatedInsertStatement = generateSQLFromTable(sourceTable, targetTable, columnMap);
-                if(keepGeneratedSQLFile) {
-                    generatedSQL.put(targetTable, generatedInsertStatement);
+                if(!StringUtils.isEmpty(generatedInsertStatement)) {
+                    if (keepGeneratedSQLFile)
+                        generatedSQL.put(targetTable, generatedInsertStatement);
+
+                    saveSQLToFile(generatedInsertStatement, targetTable);
                 }
-                saveSQLToFile(generatedInsertStatement, targetTable);
             }
         });
 
         //once we're done, generate a zip file
-        String generatedZipFileName = keySpace.toLowerCase().concat("_").concat(LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"))) + ".zip";
-        this.generatedZipFile = new File(generatedZipFileName);
-        ZipUtil.pack(tempDir, generatedZipFile);
+        String [] filenameCheck = tempDir.list();
 
-        //mail the zipped file if mail settings are available
-        if(isEmailPropertiesSet()) {
-            boolean emailSendingRes = EmailService.builder()
-                    .setHost(properties.getProperty(EMAIL_HOST))
-                    .setPort(Integer.valueOf(properties.getProperty(EMAIL_PORT)))
-                    .setToAddress(properties.getProperty(EMAIL_TO))
-                    .setFromAddress(properties.getProperty(EMAIL_FROM))
-                    .setUsername(properties.getProperty(EMAIL_USERNAME))
-                    .setPassword(properties.getProperty(EMAIL_PASSWORD))
-                    .setSubject(properties.getProperty(EMAIL_SUBJECT, generatedZipFileName))
-                    .setMessage(properties.getProperty(EMAIL_MESSAGE, "Please find attached backup of key-space " + keySpace))
-                    .setAttachments(new File[]{generatedZipFile})
-                    .sendMail();
+        //check if dir is empty or not
+        if(!Objects.isNull(filenameCheck) && filenameCheck.length > 0) {
 
-            if (emailSendingRes) {
-                logger.debug("Zip File Sent as Attachment to Email Address Successfully");
-            } else {
-                logger.error("Unable to send zipped file as attachment to email. See log debug for more info");
+            String generatedZipFileName = keySpace.toLowerCase().concat("_").concat(LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"))) + ".zip";
+            this.generatedZipFile = new File(generatedZipFileName);
+            ZipUtil.pack(tempDir, generatedZipFile);
+
+            //mail the zipped file if mail settings are available
+            if (isEmailPropertiesSet()) {
+                boolean emailSendingRes = EmailService.builder()
+                        .setHost(properties.getProperty(EMAIL_HOST))
+                        .setPort(Integer.valueOf(properties.getProperty(EMAIL_PORT)))
+                        .setToAddress(properties.getProperty(EMAIL_TO))
+                        .setFromAddress(properties.getProperty(EMAIL_FROM))
+                        .setUsername(properties.getProperty(EMAIL_USERNAME))
+                        .setPassword(properties.getProperty(EMAIL_PASSWORD))
+                        .setSubject(properties.getProperty(EMAIL_SUBJECT, generatedZipFileName))
+                        .setMessage(properties.getProperty(EMAIL_MESSAGE, "Please find attached backup of key-space " + keySpace))
+                        .setAttachments(new File[]{generatedZipFile})
+                        .sendMail();
+
+                if (emailSendingRes) {
+                    logger.debug("Zip File Sent as Attachment to Email Address Successfully");
+                } else {
+                    logger.error("Unable to send zipped file as attachment to email. See log debug for more info");
+                }
             }
+
         }
 
     }
